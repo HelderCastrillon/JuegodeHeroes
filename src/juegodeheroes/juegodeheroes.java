@@ -18,14 +18,23 @@ public class juegodeheroes {
 
     public static void main(String[] args) throws SQLException{
 
+        Scanner leer = new Scanner(System.in);    
         UsuarioDao usuarios = null;
          List<Usuarios> listaUsuarios = usuarios.getUsuarios();
-       for(int k=0; k< listaUsuarios.size();k++){
+        printList(listaUsuarios);
+       
+        System.out.println("Digite el nombre de la persona que desa buscar");
+        String nombre=leer.next();
+         listaUsuarios = usuarios.findUsuarios(nombre);
+         printList(listaUsuarios);
+      }
+    
+    public static void printList(List<Usuarios> listaUsuarios){
+        for(int k=0; k< listaUsuarios.size();k++){
            System.out.println("Nombre: "+listaUsuarios.get(k).getNombre());
            System.out.println("ID: "+listaUsuarios.get(k).getId());
 
        }
-        
-      }
+    }
     
     }

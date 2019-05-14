@@ -74,4 +74,36 @@ public class UsuarioDao {
               }
 
 }
+                public static List<Usuarios> findUsuarios(String nombreFind) throws SQLException{
+                   List<Usuarios> listaUsuarios = new ArrayList();
+                // TODO code application logic here
+
+              try {
+                  pgConnect connectPG = new pgConnect();
+                  Connection conex=connectPG.settingConnect();
+                  java.sql.Statement st = conex.createStatement();  
+  
+                  String sql ="SELECT id,nombre FROM usuarios WHERE nombre like '%"+nombreFind+"%'";
+                  ResultSet result = st.executeQuery(sql);
+                  
+                  while(result.next()) {
+                      String nombre = result.getString("nombre");
+                      int id = result.getInt("id");                      
+                      
+                       Usuarios miusuario = new Usuarios(id,nombre);
+                       listaUsuarios.add(miusuario);
+                  }
+                  result.close();
+                  st.close();
+                  conex.close();
+              } catch(ClassNotFoundException | SQLException exc) {
+                  System.out.println("Error: "+exc.getMessage());
+                  Usuarios usuario = new Usuarios(0,"Error no se pudo hacer la consulta SQL");
+                   listaUsuarios.add(usuario);
+              }
+
+        return listaUsuarios;
+         
+         }
+              
 }
